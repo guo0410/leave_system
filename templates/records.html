@@ -1,68 +1,52 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <title>請假紀錄</title>
-    <style>
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            background-color: #f4f7fb;
-            padding: 30px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 80%;
-            margin: auto;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        th, td {
-            border-bottom: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background-color: #6c8cff;
-            color: white;
-        }
-        .事假 { background-color: #fff8dc; }
-        .病假 { background-color: #ffe6e6; }
-        .特休 { background-color: #e6f7ff; }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #6c8cff;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>請假紀錄</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; }
+table { border-collapse: collapse; width: 100%; background-color: #fff; border-radius: 8px; overflow: hidden; }
+th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+th { background-color: #2196F3; color: white; }
+.leave-type { padding: 4px 8px; border-radius: 4px; display: inline-block; }
+</style>
 </head>
 <body>
-    <h2>📋 {{ '所有請假紀錄' if is_admin else '我的請假紀錄' }}</h2>
-    <table>
-        <tr>
-            <th>姓名</th>
-            <th>開始日期</th>
-            <th>結束日期</th>
-            <th>假別</th>
-            <th>原因</th>
-        </tr>
-        {% for r in records %}
-        <tr class="{{ r.leave_type }}">
-            <td>{{ r.user_name }}</td>
-            <td>{{ r.start_date }}</td>
-            <td>{{ r.end_date }}</td>
-            <td>{{ r.leave_type }}</td>
-            <td>{{ r.reason }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href="/leave_form">返回請假表單</a> |
-    <a href="/logout">登出</a>
+<h2>請假紀錄</h2>
+{% if session.is_admin %}
+<p>管理員模式</p>
+<a href="{{ url_for('admin_logout') }}">登出管理員</a>
+{% endif %}
+<table>
+<tr>
+    <th>姓名</th>
+    <th>假別</th>
+    <th>開始日期</th>
+    <th>結束日期</th>
+    <th>事由</th>
+    <th>提交時間</th>
+</tr>
+{% for r in records %}
+<tr>
+    <td>{{ r.user_name }}</td>
+    <td><span class="leave-type" style="background-color:
+        {% if r.leave_type=='事假' %}#fce4ec
+        {% elif r.leave_type=='病假' %}#e3f2fd
+        {% elif r.leave_type=='公假' %}#e8f5e9
+        {% elif r.leave_type=='喪假' %}#fff3e0
+        {% elif r.leave_type=='婚假' %}#f3e5f5
+        {% elif r.leave_type=='產假' %}#ede7f6
+        {% elif r.leave_type=='陪產假' %}#f9fbe7
+        {% elif r.leave_type=='生理假' %}#fffde7
+        {% elif r.leave_type=='特休假' %}#e0f7fa
+        {% else %}#ddd{% endif %}
+    ">{{ r.leave_type }}</span></td>
+    <td>{{ r.start_date }}</td>
+    <td>{{ r.end_date }}</td>
+    <td>{{ r.reason }}</td>
+    <td>{{ r.timestamp }}</td>
+</tr>
+{% endfor %}
+</table>
 </body>
 </html>
