@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <title>請假紀錄</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>請假紀錄</h1>
-    <table>
-        <tr>
-            <th>姓名</th><th>假別</th><th>開始日期</th><th>結束日期</th><th>事由</th>
-        </tr>
-        {% for r in records %}
-        <tr>
-            <td>{{ r.user_name }}</td>
-            <td>{{ r.leave_type }}</td>
-            <td>{{ r.start_date }}</td>
-            <td>{{ r.end_date }}</td>
-            <td>{{ r.reason }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href="{{ url_for('bind_name') }}" class="btn">回首頁</a>
-</div>
+    <div class="container">
+        <h2>{{ user_name }} 的請假紀錄</h2>
+        {% if session.is_admin %}
+            <p>管理者模式 - 顯示所有紀錄</p>
+        {% endif %}
+        <table class="records-table">
+            <tr>
+                <th>姓名</th>
+                <th>假別</th>
+                <th>開始日期</th>
+                <th>結束日期</th>
+                <th>原因</th>
+            </tr>
+            {% for r in records %}
+            <tr style="background-color: {% if r.leave_type == '事假' %}#fce4ec{% elif r.leave_type == '病假' %}#e3f2fd{% elif r.leave_type == '公假' %}#e8f5e9{% elif r.leave_type == '喪假' %}#fff3e0{% elif r.leave_type == '婚假' %}#f3e5f5{% elif r.leave_type == '產假' %}#ede7f6{% elif r.leave_type == '陪產假' %}#f9fbe7{% elif r.leave_type == '生理假' %}#fffde7{% elif r.leave_type == '特休假' %}#e0f7fa{% else %}#ffffff{% endif %}">
+                <td>{{ r.user_name }}</td>
+                <td>{{ r.leave_type }}</td>
+                <td>{{ r.start_date }}</td>
+                <td>{{ r.end_date }}</td>
+                <td>{{ r.reason }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a class="back-btn" href="{{ url_for('leave_form') }}">回到請假單</a>
+    </div>
 </body>
 </html>

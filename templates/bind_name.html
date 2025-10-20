@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>請假系統 - 輸入姓名</title>
+    <title>請假系統 - 輸入名字</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>歡迎使用請假系統</h1>
-    <form method="POST">
-        <input type="text" name="user_name" placeholder="請輸入姓名" required>
-        <button type="submit">開始申請</button>
-    </form>
-    <a href="{{ url_for('admin_login') }}" class="admin-btn">管理者登入</a>
-</div>
+    <div class="container center">
+        <h1>歡迎使用請假系統</h1>
+        <form method="POST" class="card form-card">
+            <label for="user_name">請輸入姓名：</label>
+            <input type="text" name="user_name" id="user_name" required placeholder="請輸入姓名">
+            <button type="submit">進入請假單</button>
+        </form>
+        <a class="admin-btn" href="{{ url_for('admin_login') }}">管理者登入</a>
+    </div>
 </body>
 </html>

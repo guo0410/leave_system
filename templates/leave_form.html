@@ -1,43 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <title>{{ user_name }} 的請假申請單</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>{{ user_name }} 的請假申請單</h1>
-    <form method="POST" action="{{ url_for('submit_leave') }}">
-        <label>開始日期</label>
-        <input type="date" name="start_date" required>
-        <label>結束日期</label>
-        <input type="date" name="end_date" required>
-        <label>假別</label>
-        <select name="leave_type" required>
-            {% for lt in leave_types %}
-            <option value="{{ lt.name }}" style="background-color:{{ lt.color }}">{{ lt.name }}</option>
-            {% endfor %}
-        </select>
-        <label>事由</label>
-        <textarea name="reason" placeholder="請輸入請假原因" required></textarea>
-        <button type="submit">送出請假</button>
-    </form>
-
-    <h2>已申請請假紀錄</h2>
-    <table>
-        <tr>
-            <th>假別</th><th>開始日期</th><th>結束日期</th><th>事由</th>
-        </tr>
-        {% for r in records %}
-        <tr style="background-color: {% for lt in leave_types if lt.name==r.leave_type %}{{ lt.color }}{% endif %};">
-            <td>{{ r.leave_type }}</td>
-            <td>{{ r.start_date }}</td>
-            <td>{{ r.end_date }}</td>
-            <td>{{ r.reason }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+    <div class="container">
+        <h2>{{ user_name }} 的請假申請單</h2>
+        <form method="POST" action="{{ url_for('submit_leave') }}" class="card form-card">
+            <label>開始日期：</label>
+            <input type="date" name="start_date" required>
+            <label>結束日期：</label>
+            <input type="date" name="end_date" required>
+            <label>假別：</label>
+            <select name="leave_type" required>
+                {% for lt in leave_types %}
+                    <option value="{{ lt.name }}" style="background-color: {{ lt.color }}">{{ lt.name }}</option>
+                {% endfor %}
+            </select>
+            <label>原因：</label>
+            <textarea name="reason" rows="3" placeholder="請輸入請假原因"></textarea>
+            <button type="submit">送出申請</button>
+        </form>
+        <a class="back-btn" href="{{ url_for('records') }}">查看請假紀錄</a>
+    </div>
 </body>
 </html>

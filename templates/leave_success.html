@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>請假成功</title>
+    <title>申請成功</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>✅ 請假申請成功！</h1>
-    <p>{{ user_name }}，你的請假已送出</p>
-    <a href="{{ url_for('leave_form') }}" class="btn">返回請假單</a>
-</div>
+    <div class="container center">
+        <div class="card success-card">
+            <h2>✅ 申請成功！</h2>
+            <p>{{ user_name }}，您的請假申請已送出。</p>
+            <a href="{{ url_for('leave_form') }}" class="button">回到請假單</a>
+        </div>
+    </div>
 </body>
 </html>

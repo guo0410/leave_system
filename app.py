@@ -10,13 +10,15 @@ app.secret_key = os.urandom(24)
 AWS_REGION = os.environ.get("AWS_REGION")
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
 dynamodb = boto3.resource(
     'dynamodb',
     region_name=AWS_REGION,
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
-table = dynamodb.Table('leave_records_new')  # 改成你的新 Table 名稱
+
+table = dynamodb.Table('leave_records_new')  # 新表名稱
 
 # 管理員帳號
 ADMIN_USERNAME = "cyut"
@@ -48,14 +50,7 @@ def leave_form():
         {"name": "特休假", "color": "#e0f7fa"}
     ]
 
-    # 取得使用者自己的紀錄
-    response = table.scan(
-        FilterExpression=boto3.dynamodb.conditions.Attr('user_name').eq(session['user_name'])
-    )
-    records = response.get('Items', [])
-    records.sort(key=lambda x: x['start_date'])
-
-    return render_template("leave_form.html", user_name=session['user_name'], leave_types=leave_types, records=records)
+    return render_template("leave_form.html", user_name=session['user_name'], leave_types=leave_types)
 
 # 提交請假
 @app.route("/submit_leave", methods=["POST"])
@@ -80,6 +75,7 @@ def submit_leave():
             'timestamp': datetime.now().isoformat()
         })
 
+        # 顯示送出成功頁面
         return render_template("leave_success.html", user_name=user_name)
 
     except Exception as e:
@@ -101,7 +97,7 @@ def records():
         records = response.get('Items', [])
 
     records.sort(key=lambda x: x['start_date'])
-    return render_template("records.html", records=records)
+    return render_template("records.html", records=records, user_name=session['user_name'])
 
 # 管理員登入
 @app.route("/admin_login", methods=["GET", "POST"])
