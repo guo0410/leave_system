@@ -1,36 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-    <title>我的請假紀錄</title>
+    <meta charset="UTF-8">
+    <title>請假紀錄</title>
     <style>
-        body { font-family: Arial; background:#f0f0f0; padding:50px; }
-        table { width:90%; margin:auto; border-collapse: collapse; background:white; box-shadow:0 0 15px rgba(0,0,0,0.2); }
-        th, td { padding:10px; border:1px solid #ccc; text-align:center; }
-        th { background:#4CAF50; color:white; }
-        td.leave-type { font-weight:bold; }
-        a { display:block; text-align:center; margin-top:20px; text-decoration:none; color:#333; }
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #f4f7fb;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #6c8cff;
+            color: white;
+        }
+        .事假 { background-color: #fff8dc; }
+        .病假 { background-color: #ffe6e6; }
+        .特休 { background-color: #e6f7ff; }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #6c8cff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-<h2 style="text-align:center;">我的請假紀錄</h2>
-<table>
-<tr>
-<th>姓名</th>
-<th>開始日期</th>
-<th>結束日期</th>
-<th>假別</th>
-<th>原因</th>
-</tr>
-{% for record in records %}
-<tr>
-<td>{{ record[0] }}</td>
-<td>{{ record[1] }}</td>
-<td>{{ record[2] }}</td>
-<td class="leave-type" style="color:{% if record[3]=='病假' %}red{% elif record[3]=='特休' %}blue{% elif record[3]=='公假' %}green{% elif record[3]=='生理假' %}purple{% else %}black{% endif %}">{{ record[3] }}</td>
-<td>{{ record[4] }}</td>
-</tr>
-{% endfor %}
-</table>
-<a href="{{ url_for('logout') }}">登出</a>
+    <h2>📋 {{ '所有請假紀錄' if is_admin else '我的請假紀錄' }}</h2>
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>開始日期</th>
+            <th>結束日期</th>
+            <th>假別</th>
+            <th>原因</th>
+        </tr>
+        {% for r in records %}
+        <tr class="{{ r.leave_type }}">
+            <td>{{ r.user_name }}</td>
+            <td>{{ r.start_date }}</td>
+            <td>{{ r.end_date }}</td>
+            <td>{{ r.leave_type }}</td>
+            <td>{{ r.reason }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/leave_form">返回請假表單</a> |
+    <a href="/logout">登出</a>
 </body>
 </html>

@@ -1,22 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
+    <meta charset="UTF-8">
     <title>管理員登入</title>
     <style>
-        body { font-family: Arial; background:#f0f0f0; padding-top:50px; text-align:center; }
-        form { background:white; padding:20px; width:300px; margin:auto; box-shadow:0 0 15px rgba(0,0,0,0.2); }
-        input, button { width:100%; padding:10px; margin:10px 0; }
-        button { background:#4CAF50; color:white; border:none; cursor:pointer; }
-        .error { color:red; }
+        body {
+            background-color: #eef2ff;
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 320px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #6c8cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .error { color: red; margin-top: 10px; }
+        a { display: block; margin-top: 15px; color: #666; text-decoration: none; }
     </style>
 </head>
 <body>
-<h2>管理員登入</h2>
-{% if error %}<p class="error">{{ error }}</p>{% endif %}
-<form method="POST">
-    <input type="text" name="username" placeholder="帳號" required>
-    <input type="password" name="password" placeholder="密碼" required>
-    <button type="submit">登入</button>
-</form>
+    <div class="box">
+        <h2>👑 管理員登入</h2>
+        <form method="POST" action="/admin_login">
+            <input type="text" name="username" placeholder="帳號" required>
+            <input type="password" name="password" placeholder="密碼" required>
+            <button type="submit">登入</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <a href="/">返回首頁</a>
+    </div>
 </body>
 </html>

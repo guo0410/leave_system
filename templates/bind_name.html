@@ -1,18 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-    <title>綁定名字</title>
+    <meta charset="UTF-8">
+    <title>綁定姓名</title>
     <style>
-        body { font-family: Arial; background:#f0f0f0; text-align:center; padding-top:50px; }
-        input { padding:10px; font-size:16px; }
-        button { padding:10px 20px; font-size:16px; margin-left:10px; cursor:pointer; }
+        body {
+            background-color: #f4f6f9;
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 320px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #6c8cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .error { color: red; margin-top: 10px; }
+        a {
+            display: block;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-<h2>請輸入你的名字</h2>
-<form method="POST">
-    <input type="text" name="name" placeholder="你的名字">
-    <button type="submit">確認</button>
-</form>
+    <div class="box">
+        <h2>請輸入姓名綁定</h2>
+        <form method="POST" action="/">
+            <input type="text" name="user_name" placeholder="請輸入姓名" required>
+            <button type="submit">綁定</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <a href="/admin_login">👑 管理員登入</a>
+    </div>
 </body>
 </html>

@@ -1,39 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-    <title>請假單</title>
+    <meta charset="UTF-8">
+    <title>請假申請</title>
     <style>
-        body { font-family: Arial; background:#f0f0f0; padding:50px; }
-        form { background:white; padding:20px; width:400px; margin:auto; box-shadow:0 0 15px rgba(0,0,0,0.2); }
-        input, select, textarea, button { width:100%; padding:10px; margin:10px 0; }
-        button { background:#4CAF50; color:white; border:none; cursor:pointer; }
-        .error { color:red; }
-        .admin-login { position:absolute; top:10px; right:10px; }
+        body {
+            background-color: #f8fbff;
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 { text-align: center; color: #444; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #6c8cff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-<a class="admin-login" href="{{ url_for('admin_login') }}">管理員登入</a>
-<h2 style="text-align:center;">請假單</h2>
-{% if error %}<p class="error">{{ error }}</p>{% endif %}
-<form method="POST">
-    <label>開始日期</label>
-    <input type="date" name="start_date" required>
-    <label>結束日期</label>
-    <input type="date" name="end_date" required>
-    <label>假別</label>
-    <select name="leave_type" required>
-        {% for lt in leave_types %}
-            <option value="{{ lt }}">{{ lt }}</option>
-        {% endfor %}
-    </select>
-    <label>原因</label>
-    <textarea name="reason" rows="3" required></textarea>
-    <button type="submit">送出</button>
-</form>
-<div style="text-align:center; margin-top:20px;">
-    <a href="{{ url_for('my_records') }}">查看我的請假紀錄</a>
-    <br>
-    <a href="{{ url_for('logout') }}">登出</a>
-</div>
+    <div class="container">
+        <h2>{{ user_name }} 的請假單</h2>
+        <form method="POST" action="/leave_form">
+            <label>開始日期：</label>
+            <input type="date" name="start_date" required>
+
+            <label>結束日期：</label>
+            <input type="date" name="end_date" required>
+
+            <label>假別：</label>
+            <select name="leave_type" required>
+                <option value="事假">事假</option>
+                <option value="病假">病假</option>
+                <option value="特休">特休</option>
+            </select>
+
+            <label>原因：</label>
+            <textarea name="reason" rows="3" required></textarea>
+
+            <button type="submit">送出</button>
+        </form>
+        <a href="/records">📋 查看紀錄</a> |
+        <a href="/logout">登出</a>
+    </div>
 </body>
 </html>
