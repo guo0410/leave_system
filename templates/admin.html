@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>管理員介面</title>
-<style>
-body { font-family: Arial; background:#f0f0f0; padding:50px; }
-table { width:90%; margin:auto; border-collapse: collapse; background:white; box-shadow:0 0 15px rgba(0,0,0,0.2); }
-th, td { padding:10px; border:1px solid #ccc; text-align:center; }
-th { background:#4CAF50; color:white; }
-a { display:block; text-align:center; margin-top:20px; text-decoration:none; color:#333; }
-</style>
+    <title>管理員 - 所有請假紀錄</title>
+    <style>
+        body { font-family: Arial; background:#f0f0f0; padding:50px; }
+        table { width:95%; margin:auto; border-collapse: collapse; background:white; box-shadow:0 0 15px rgba(0,0,0,0.2); }
+        th, td { padding:10px; border:1px solid #ccc; text-align:center; }
+        th { background:#4CAF50; color:white; }
+        td.leave-type { font-weight:bold; }
+        a { display:block; text-align:center; margin-top:20px; text-decoration:none; color:#333; }
+    </style>
 </head>
 <body>
 <h2 style="text-align:center;">所有請假紀錄</h2>
@@ -26,7 +26,7 @@ a { display:block; text-align:center; margin-top:20px; text-decoration:none; col
 <td>{{ record[0] }}</td>
 <td>{{ record[1] }}</td>
 <td>{{ record[2] }}</td>
-<td style="color: {% if record[3]=='病假' %}red{% elif record[3]=='特休' %}blue{% elif record[3]=='公假' %}green{% elif record[3]=='生理假' %}purple{% else %}black{% endif %};">{{ record[3] }}</td>
+<td class="leave-type" style="color:{% if record[3]=='病假' %}red{% elif record[3]=='特休' %}blue{% elif record[3]=='公假' %}green{% elif record[3]=='生理假' %}purple{% else %}black{% endif %}">{{ record[3] }}</td>
 <td>{{ record[4] }}</td>
 </tr>
 {% endfor %}

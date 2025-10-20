@@ -1,41 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>請假單</title>
-<style>
-body { font-family: Arial; background:#f0f0f0; padding:50px; }
-header { display:flex; justify-content:flex-end; margin-bottom:20px; }
-header a { text-decoration:none; padding:10px 15px; background:#4CAF50; color:white; border-radius:5px; }
-form { background:white; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.2); width:400px; margin:auto; }
-input, select, textarea { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
-button { padding:10px; border:none; border-radius:5px; background:#4CAF50; color:white; width:100%; cursor:pointer; }
-button:hover { background:#45a049; }
-</style>
+    <title>請假單</title>
+    <style>
+        body { font-family: Arial; background:#f0f0f0; padding:50px; }
+        form { background:white; padding:20px; width:400px; margin:auto; box-shadow:0 0 15px rgba(0,0,0,0.2); }
+        input, select, textarea, button { width:100%; padding:10px; margin:10px 0; }
+        button { background:#4CAF50; color:white; border:none; cursor:pointer; }
+        .error { color:red; }
+        .admin-login { position:absolute; top:10px; right:10px; }
+    </style>
 </head>
 <body>
-<header>
-    <a href="{{ url_for('admin_login') }}">管理員登入</a>
-</header>
+<a class="admin-login" href="{{ url_for('admin_login') }}">管理員登入</a>
 <h2 style="text-align:center;">請假單</h2>
-<form action="{{ url_for('submit_leave') }}" method="POST">
-    <label>開始日期：</label>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="POST">
+    <label>開始日期</label>
     <input type="date" name="start_date" required>
-
-    <label>結束日期：</label>
+    <label>結束日期</label>
     <input type="date" name="end_date" required>
-
-    <label>假別：</label>
+    <label>假別</label>
     <select name="leave_type" required>
-        {% for type in leave_types %}
-            <option value="{{ type }}">{{ type }}</option>
+        {% for lt in leave_types %}
+            <option value="{{ lt }}">{{ lt }}</option>
         {% endfor %}
     </select>
-
-    <label>請假原因：</label>
-    <textarea name="reason" rows="4" required></textarea>
-
-    <button type="submit">送出請假單</button>
+    <label>原因</label>
+    <textarea name="reason" rows="3" required></textarea>
+    <button type="submit">送出</button>
 </form>
 <div style="text-align:center; margin-top:20px;">
     <a href="{{ url_for('my_records') }}">查看我的請假紀錄</a>

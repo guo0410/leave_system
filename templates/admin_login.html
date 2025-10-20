@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>管理員登入</title>
-<style>
-body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; background:#f0f0f0; }
-form { background:white; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.2); width:300px; }
-input { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
-button { width:100%; padding:10px; border:none; border-radius:5px; background:#4CAF50; color:white; cursor:pointer; }
-button:hover { background:#45a049; }
-</style>
+    <title>管理員登入</title>
+    <style>
+        body { font-family: Arial; background:#f0f0f0; padding-top:50px; text-align:center; }
+        form { background:white; padding:20px; width:300px; margin:auto; box-shadow:0 0 15px rgba(0,0,0,0.2); }
+        input, button { width:100%; padding:10px; margin:10px 0; }
+        button { background:#4CAF50; color:white; border:none; cursor:pointer; }
+        .error { color:red; }
+    </style>
 </head>
 <body>
-<form action="{{ url_for('admin_login') }}" method="POST">
-<h3 style="text-align:center;">管理員登入</h3>
-<input type="text" name="username" placeholder="帳號" required>
-<input type="password" name="password" placeholder="密碼" required>
-<button type="submit">登入</button>
+<h2>管理員登入</h2>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="POST">
+    <input type="text" name="username" placeholder="帳號" required>
+    <input type="password" name="password" placeholder="密碼" required>
+    <button type="submit">登入</button>
 </form>
 </body>
 </html>
