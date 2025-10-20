@@ -16,7 +16,7 @@ dynamodb = boto3.resource(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
-table = dynamodb.Table('leave_records_new')  # 你的新 Table 名稱
+table = dynamodb.Table('leave_records_new')  # 使用新的 table 名稱
 
 # 管理員帳號
 ADMIN_USERNAME = "cyut"
