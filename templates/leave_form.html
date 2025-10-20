@@ -1,39 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>請假表單</title>
-    <style>
-        body { font-family: Arial, sans-serif; background:#f5f5f5; display:flex; justify-content:center; align-items:flex-start; padding-top:50px; }
-        .container { background:#fff; padding:30px 40px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:400px; }
-        label { display:block; margin:15px 0 5px; color:#555; }
-        input, select, textarea { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; }
-        button { margin-top:20px; padding:10px 20px; border:none; border-radius:8px; background:#4caf50; color:#fff; font-size:16px; cursor:pointer; }
-        button:hover { background:#388e3c; }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>{{ user_name }} 的請假表單</h2>
-        <form action="{{ url_for('submit_leave') }}" method="POST">
-            <label>開始日期</label>
-            <input type="date" name="start_date" required>
-            
-            <label>結束日期</label>
-            <input type="date" name="end_date" required>
-            
-            <label>假別</label>
-            <select name="leave_type" required>
-                {% for leave in leave_types %}
-                <option value="{{ leave.name }}">{{ leave.name }}</option>
-                {% endfor %}
-            </select>
-            
-            <label>請假原因</label>
-            <textarea name="reason" rows="3" placeholder="請輸入原因"></textarea>
-            
-            <button type="submit">送出請假</button>
-        </form>
-    </div>
+    <h2>{{ user_name }} 的請假表單</h2>
+    <form method="POST" action="{{ url_for('submit_leave') }}">
+        <label>開始日期:</label>
+        <input type="date" name="start_date" required><br>
+        <label>結束日期:</label>
+        <input type="date" name="end_date" required><br>
+        <label>假別:</label>
+        <select name="leave_type" required>
+            {% for type in leave_types %}
+            <option value="{{ type.name }}" style="background-color: {{ type.color }}">{{ type.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label>事由:</label>
+        <textarea name="reason" required></textarea><br>
+        <button type="submit">送出請假</button>
+    </form>
+    <br>
+    <a href="{{ url_for('records') }}">查看請假紀錄</a>
 </body>
 </html>
