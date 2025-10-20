@@ -16,7 +16,7 @@ dynamodb = boto3.resource(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
-table = dynamodb.Table('leave_records_new')  # 使用新的 table 名稱
+table = dynamodb.Table('leave_records_new')  # 使用新表格
 
 # 管理員帳號
 ADMIN_USERNAME = "cyut"
@@ -86,14 +86,17 @@ def records():
         return redirect(url_for("bind_name"))
 
     if session.get('is_admin'):
+        # 管理員看到所有紀錄
         response = table.scan()
         records = response.get('Items', [])
     else:
+        # 一般使用者只看自己的
         response = table.scan(
             FilterExpression=boto3.dynamodb.conditions.Attr('user_name').eq(session['user_name'])
         )
         records = response.get('Items', [])
 
+    # 依日期排序
     records.sort(key=lambda x: x['start_date'])
     return render_template("records.html", records=records)
 

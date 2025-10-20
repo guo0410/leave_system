@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-    <title>送出成功</title>
+<meta charset="UTF-8">
+<title>送出成功</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #f9f9f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin:0; }
+.container {
+    background: #fff; padding: 40px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center; width: 100%; max-width: 400px;
+}
+h2 { color: #4caf50; margin-bottom: 20px; }
+a { display: inline-block; margin-top: 20px; padding: 12px 20px; background-color: #2196f3; color: #fff; border-radius: 6px; text-decoration: none; }
+a:hover { background-color: #1976d2; }
+</style>
 </head>
 <body>
-    <h2>{{ user_name }}，請假送出成功！</h2>
-    <a href="{{ url_for('leave_form') }}">回表單</a>
-    <br>
-    <a href="{{ url_for('records') }}">查看請假紀錄</a>
+<div class="container">
+<h2>請假送出成功！</h2>
+<p>{{ user_name }}，您的請假申請已送出。</p>
+<a href="{{ url_for('leave_form') }}">回表單</a>
+<a href="{{ url_for('records') }}">查看請假紀錄</a>
+</div>
 </body>
 </html>

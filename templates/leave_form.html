@@ -4,36 +4,45 @@
 <meta charset="UTF-8">
 <title>請假表單</title>
 <style>
-body { font-family: Arial; background-color: #f9f9f9; color: #333; }
-.container { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-h2 { text-align: center; }
-label { display: block; margin-top: 10px; font-weight: bold; }
-input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
-button { margin-top: 15px; width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #4caf50; color: #fff; font-size: 16px; cursor: pointer; }
-button:hover { background-color: #45a049; }
+body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin:0; padding:0; }
+.container {
+    max-width: 600px; margin: 40px auto; padding: 30px;
+    background: #fff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+h2 { text-align: center; color: #333; }
+label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
+input, select, textarea {
+    width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc;
+}
+button {
+    margin-top: 20px; width: 100%; padding: 12px;
+    border: none; border-radius: 6px; background-color: #2196f3;
+    color: #fff; font-size: 16px; cursor: pointer;
+}
+button:hover { background-color: #1976d2; }
 </style>
 </head>
 <body>
 <div class="container">
 <h2>請假表單</h2>
-<p>您好, {{ user_name }}</p>
+<p>您好, <strong>{{ user_name }}</strong></p>
 <form action="{{ url_for('submit_leave') }}" method="post">
     <label>開始日期</label>
     <input type="date" name="start_date" required>
-    
+
     <label>結束日期</label>
     <input type="date" name="end_date" required>
-    
+
     <label>假別</label>
     <select name="leave_type" required>
         {% for leave in leave_types %}
         <option value="{{ leave.name }}" style="background-color: {{ leave.color }}">{{ leave.name }}</option>
         {% endfor %}
     </select>
-    
+
     <label>請假原因</label>
     <textarea name="reason" rows="3" required></textarea>
-    
+
     <button type="submit">送出請假</button>
 </form>
 </div>
