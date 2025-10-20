@@ -1,52 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<title>請假紀錄</title>
-<style>
-body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin:0; padding:0; }
-.container { max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-h2 { text-align: center; color: #333; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
-th { background-color: #f2f2f2; }
-tr:nth-child(even) { background-color: #f9f9f9; }
-.leave-type { padding: 5px 10px; border-radius: 6px; color: #333; font-weight: bold; display: inline-block; }
-</style>
+    <meta charset="UTF-8">
+    <title>請假紀錄</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <div class="container">
-<h2>請假紀錄</h2>
-<table>
-<tr>
-<th>使用者</th>
-<th>開始日期</th>
-<th>結束日期</th>
-<th>假別</th>
-<th>原因</th>
-<th>送出時間</th>
-</tr>
-{% for record in records %}
-<tr>
-<td>{{ record.user_name }}</td>
-<td>{{ record.start_date }}</td>
-<td>{{ record.end_date }}</td>
-<td><span class="leave-type" style="background-color: 
-{% if record.leave_type == '事假' %}#fce4ec
-{% elif record.leave_type == '病假' %}#e3f2fd
-{% elif record.leave_type == '公假' %}#e8f5e9
-{% elif record.leave_type == '喪假' %}#fff3e0
-{% elif record.leave_type == '婚假' %}#f3e5f5
-{% elif record.leave_type == '產假' %}#ede7f6
-{% elif record.leave_type == '陪產假' %}#f9fbe7
-{% elif record.leave_type == '生理假' %}#fffde7
-{% elif record.leave_type == '特休假' %}#e0f7fa
-{% else %}#ccc{% endif %};">{{ record.leave_type }}</span></td>
-<td>{{ record.reason }}</td>
-<td>{{ record.timestamp }}</td>
-</tr>
-{% endfor %}
-</table>
+    <h1>請假紀錄</h1>
+    <table>
+        <tr>
+            <th>姓名</th><th>假別</th><th>開始日期</th><th>結束日期</th><th>事由</th>
+        </tr>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.user_name }}</td>
+            <td>{{ r.leave_type }}</td>
+            <td>{{ r.start_date }}</td>
+            <td>{{ r.end_date }}</td>
+            <td>{{ r.reason }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('bind_name') }}" class="btn">回首頁</a>
 </div>
 </body>
 </html>

@@ -1,50 +1,43 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<title>請假表單</title>
-<style>
-body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin:0; padding:0; }
-.container {
-    max-width: 600px; margin: 40px auto; padding: 30px;
-    background: #fff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-h2 { text-align: center; color: #333; }
-label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
-input, select, textarea {
-    width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc;
-}
-button {
-    margin-top: 20px; width: 100%; padding: 12px;
-    border: none; border-radius: 6px; background-color: #2196f3;
-    color: #fff; font-size: 16px; cursor: pointer;
-}
-button:hover { background-color: #1976d2; }
-</style>
+    <meta charset="UTF-8">
+    <title>{{ user_name }} 的請假申請單</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <div class="container">
-<h2>請假表單</h2>
-<p>您好, <strong>{{ user_name }}</strong></p>
-<form action="{{ url_for('submit_leave') }}" method="post">
-    <label>開始日期</label>
-    <input type="date" name="start_date" required>
+    <h1>{{ user_name }} 的請假申請單</h1>
+    <form method="POST" action="{{ url_for('submit_leave') }}">
+        <label>開始日期</label>
+        <input type="date" name="start_date" required>
+        <label>結束日期</label>
+        <input type="date" name="end_date" required>
+        <label>假別</label>
+        <select name="leave_type" required>
+            {% for lt in leave_types %}
+            <option value="{{ lt.name }}" style="background-color:{{ lt.color }}">{{ lt.name }}</option>
+            {% endfor %}
+        </select>
+        <label>事由</label>
+        <textarea name="reason" placeholder="請輸入請假原因" required></textarea>
+        <button type="submit">送出請假</button>
+    </form>
 
-    <label>結束日期</label>
-    <input type="date" name="end_date" required>
-
-    <label>假別</label>
-    <select name="leave_type" required>
-        {% for leave in leave_types %}
-        <option value="{{ leave.name }}" style="background-color: {{ leave.color }}">{{ leave.name }}</option>
+    <h2>已申請請假紀錄</h2>
+    <table>
+        <tr>
+            <th>假別</th><th>開始日期</th><th>結束日期</th><th>事由</th>
+        </tr>
+        {% for r in records %}
+        <tr style="background-color: {% for lt in leave_types if lt.name==r.leave_type %}{{ lt.color }}{% endif %};">
+            <td>{{ r.leave_type }}</td>
+            <td>{{ r.start_date }}</td>
+            <td>{{ r.end_date }}</td>
+            <td>{{ r.reason }}</td>
+        </tr>
         {% endfor %}
-    </select>
-
-    <label>請假原因</label>
-    <textarea name="reason" rows="3" required></textarea>
-
-    <button type="submit">送出請假</button>
-</form>
+    </table>
 </div>
 </body>
 </html>

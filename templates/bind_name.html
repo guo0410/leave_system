@@ -1,45 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<title>請假系統 - 綁定名字</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0; padding: 0;
-    display: flex; justify-content: center; align-items: center;
-    height: 100vh;
-}
-.container {
-    background-color: #fff;
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-h2 { color: #333; margin-bottom: 20px; }
-input[type="text"] {
-    width: 100%; padding: 10px; margin-top: 10px;
-    border-radius: 6px; border: 1px solid #ccc; font-size: 16px;
-}
-button {
-    margin-top: 20px; width: 100%; padding: 12px;
-    border: none; border-radius: 6px; background-color: #4caf50;
-    color: #fff; font-size: 16px; cursor: pointer;
-}
-button:hover { background-color: #45a049; }
-</style>
+    <meta charset="UTF-8">
+    <title>請假系統 - 輸入姓名</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <div class="container">
-<h2>請輸入您的名字</h2>
-<form method="post">
-    <input type="text" name="user_name" placeholder="您的名字" required>
-    <button type="submit">進入請假表單</button>
-</form>
+    <h1>歡迎使用請假系統</h1>
+    <form method="POST">
+        <input type="text" name="user_name" placeholder="請輸入姓名" required>
+        <button type="submit">開始申請</button>
+    </form>
+    <a href="{{ url_for('admin_login') }}" class="admin-btn">管理者登入</a>
 </div>
 </body>
 </html>
