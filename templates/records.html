@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>請假紀錄</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f7ff;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f9ff;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>請假紀錄</h2>
+
+    {% if records %}
+        <table>
+            <tr>
+                <th>LINE userId</th>
+                <th>姓名</th>
+                <th>類別</th>
+                <th>開始日期</th>
+                <th>結束日期</th>
+                <th>原因</th>
+            </tr>
+            {% for r in records %}
+            <tr>
+                <td>{{ r.user_id }}</td>
+                <td>{{ r.name }}</td>
+                <td>{{ r.leave_type }}</td>
+                <td>{{ r.start_date }}</td>
+                <td>{{ r.end_date }}</td>
+                <td>{{ r.reason }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p style="text-align:center;">目前沒有任何請假紀錄。</p>
+    {% endif %}
+
+    <a href="/">返回申請頁面</a>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>綁定姓名</title>
+    <style>
+        body { font-family: Arial; background-color:#f2f7ff; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+        .container { background:white; padding:30px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.2); width:350px; text-align:center;}
+        input { width:100%; padding:8px; margin:10px 0; border-radius:5px; border:1px solid #ccc;}
+        button { width:100%; padding:10px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;}
+        button:hover { background:#2980b9;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>請綁定姓名</h2>
+        <form action="/bind" method="POST">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <input type="text" name="name" placeholder="輸入姓名" required>
+            <button type="submit">綁定姓名</button>
+        </form>
+    </div>
+</body>
+</html>

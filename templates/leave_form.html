@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>請假申請表</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f7ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            const startDate = document.forms["leaveForm"]["start_date"].value;
+            const endDate = document.forms["leaveForm"]["end_date"].value;
+
+            if (startDate && endDate && startDate > endDate) {
+                alert("結束日期不能早於開始日期！");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>請假申請</h2>
+        <form name="leaveForm" action="/submit" method="POST" onsubmit="return validateForm()">
+            <label>姓名：</label>
+            <input type="text" name="name" value="{{ name }}" readonly>
+
+            <label>請假類別：</label>
+            <select name="leave_type" required>
+                <option value="">請選擇</option>
+                <option value="事假">事假</option>
+                <option value="病假">病假</option>
+                <option value="公假">公假</option>
+                <option value="喪假">喪假</option>
+                <option value="特休">特休</option>
+                <option value="生理假">生理假</option>
+                <option value="婚假">婚假</option>
+                <option value="產假">產假</option>
+            </select>
+
+            <label>開始日期：</label>
+            <input type="date" name="start_date" required>
+
+            <label>結束日期：</label>
+            <input type="date" name="end_date" required>
+
+            <label>請假原因：</label>
+            <textarea name="reason" rows="4" required></textarea>
+
+            <button type="submit">送出申請</button>
+        </form>
+
+        <a href="/records">查看請假紀錄</a>
+    </div>
+</body>
+</html>
