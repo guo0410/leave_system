@@ -16,11 +16,24 @@ dynamodb = boto3.resource(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
-table = dynamodb.Table('leave_records')  # 你的 DynamoDB Table 名稱
+table = dynamodb.Table('leave_records_new')  # 更新成新的 table 名稱
 
 # 管理員帳號
 ADMIN_USERNAME = "cyut"
 ADMIN_PASSWORD = "001"
+
+# 假別淺色系設定
+LEAVE_TYPES = [
+    {"name": "事假", "color": "#fce4ec"},
+    {"name": "病假", "color": "#e3f2fd"},
+    {"name": "公假", "color": "#e8f5e9"},
+    {"name": "喪假", "color": "#fff3e0"},
+    {"name": "婚假", "color": "#f3e5f5"},
+    {"name": "產假", "color": "#ede7f6"},
+    {"name": "陪產假", "color": "#f9fbe7"},
+    {"name": "生理假", "color": "#fffde7"},
+    {"name": "特休假", "color": "#e0f7fa"}
+]
 
 # 首頁 - 綁定名字
 @app.route("/", methods=["GET", "POST"])
@@ -35,20 +48,7 @@ def bind_name():
 def leave_form():
     if 'user_name' not in session:
         return redirect(url_for("bind_name"))
-
-    leave_types = [
-        {"name": "事假", "color": "#fce4ec"},
-        {"name": "病假", "color": "#e3f2fd"},
-        {"name": "公假", "color": "#e8f5e9"},
-        {"name": "喪假", "color": "#fff3e0"},
-        {"name": "婚假", "color": "#f3e5f5"},
-        {"name": "產假", "color": "#ede7f6"},
-        {"name": "陪產假", "color": "#f9fbe7"},
-        {"name": "生理假", "color": "#fffde7"},
-        {"name": "特休假", "color": "#e0f7fa"}
-    ]
-
-    return render_template("leave_form.html", user_name=session['user_name'], leave_types=leave_types)
+    return render_template("leave_form.html", user_name=session['user_name'], leave_types=LEAVE_TYPES)
 
 # 提交請假
 @app.route("/submit_leave", methods=["POST"])
@@ -86,11 +86,9 @@ def records():
         return redirect(url_for("bind_name"))
 
     if session.get('is_admin'):
-        # 管理員看到所有紀錄
         response = table.scan()
         records = response.get('Items', [])
     else:
-        # 一般使用者只看自己的
         response = table.scan(
             FilterExpression=boto3.dynamodb.conditions.Attr('user_name').eq(session['user_name'])
         )

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<title>綁定名字</title>
-<style>
-body { font-family: Arial, sans-serif; background-color: #e0e0e0; padding: 20px; }
-form { background-color: #cfd8dc; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; }
-input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; margin-top: 10px; }
-button { margin-top: 15px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #607d8b; color: #fff; cursor: pointer; }
-button:hover { background-color: #455a64; }
-</style>
+    <meta charset="UTF-8">
+    <title>綁定名字</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; display:flex; justify-content:center; align-items:center; height:100vh; }
+        .container { background:#fff; padding:30px 40px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; }
+        input[type=text] { padding:10px; width:80%; margin-bottom:20px; border-radius:6px; border:1px solid #ccc; }
+        button { padding:10px 20px; border:none; border-radius:8px; background:#2196f3; color:#fff; font-size:16px; cursor:pointer; }
+        button:hover { background:#1976d2; }
+    </style>
 </head>
 <body>
-<h2>綁定名字登入</h2>
-<form method="post">
-    <input type="text" name="user_name" placeholder="請輸入姓名" required>
-    <button type="submit">進入請假表單</button>
-</form>
-<p style="text-align:right;"><a href="{{ url_for('admin_login') }}">管理員登入</a></p>
+    <div class="container">
+        <h2>請輸入您的名字</h2>
+        <form method="POST">
+            <input type="text" name="user_name" required placeholder="你的名字">
+            <br>
+            <button type="submit">綁定</button>
+        </form>
+    </div>
 </body>
 </html>
