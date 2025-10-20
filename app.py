@@ -31,7 +31,7 @@ def bind_name():
     return render_template("bind_name.html")
 
 # 請假表單
-@app.route("/leave_form", methods=["GET", "POST"])
+@app.route("/leave_form", methods=["GET"])
 def leave_form():
     if 'user_name' not in session:
         return redirect(url_for("bind_name"))
@@ -56,23 +56,28 @@ def submit_leave():
     if 'user_name' not in session:
         return redirect(url_for("bind_name"))
 
-    start_date = request.form['start_date']
-    end_date = request.form['end_date']
-    leave_type = request.form['leave_type']
-    reason = request.form['reason']
-    user_name = session['user_name']
+    try:
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+        leave_type = request.form['leave_type']
+        reason = request.form['reason']
+        user_name = session['user_name']
 
-    # 儲存到 DynamoDB
-    table.put_item(Item={
-        'user_name': user_name,
-        'start_date': start_date,
-        'end_date': end_date,
-        'leave_type': leave_type,
-        'reason': reason,
-        'timestamp': datetime.now().isoformat()
-    })
+        # 儲存到 DynamoDB
+        table.put_item(Item={
+            'user_name': user_name,
+            'start_date': start_date,
+            'end_date': end_date,
+            'leave_type': leave_type,
+            'reason': reason,
+            'timestamp': datetime.now().isoformat()
+        })
 
-    return redirect(url_for("records"))
+        # 顯示送出成功頁面
+        return render_template("leave_success.html", user_name=user_name)
+
+    except Exception as e:
+        return f"<h3>送出失敗: {e}</h3><a href='{url_for('leave_form')}'>回表單</a>"
 
 # 查看請假紀錄
 @app.route("/records")

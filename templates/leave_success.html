@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>請假送出成功</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 50px;
+        }
+        .card {
+            display: inline-block;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: #e3f2fd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #90caf9;
+            color: #fff;
+            text-decoration: none;
+        }
+        a.button:hover {
+            background-color: #64b5f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>{{ user_name }}，請假送出成功！</h2>
+        <a class="button" href="{{ url_for('leave_form') }}">返回表單</a>
+    </div>
+</body>
+</html>
