@@ -1,59 +1,47 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key"  # session 用
 
-# 暫存資料
-leave_records = []          # 所有請假紀錄
-user_bind = {}              # {line_userId: 姓名}
+# 管理員帳號密碼
+ADMIN_USERNAME = "cyut"
+ADMIN_PASSWORD = "001"
 
-# 假資料測試用 LIFF userId
-TEST_LINE_USER = "U1234567890"
+# 假資料範例
+leave_records = [
+    # {'user_id': 'guo0410', 'timestamp': '2025-10-20 14:00', 'start_date':'2025-10-21', 'end_date':'2025-10-22', 'leave_type':'事假', 'reason':'生病'}
+]
 
-# 主頁，先綁定姓名或直接填表
-@app.route('/')
-def index():
-    line_user_id = TEST_LINE_USER  # 這裡測試用，正式上線可用 LIFF SDK 抓取
-    if line_user_id in user_bind:
-        # 已綁定姓名 → 直接請假表單
-        return render_template('leave_form.html', name=user_bind[line_user_id])
-    else:
-        # 未綁定姓名 → 顯示綁定頁面
-        return render_template('bind_name.html', user_id=line_user_id)
+# 管理員登入
+@app.route("/admin_login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session["admin_logged_in"] = True
+            return redirect(url_for("admin_dashboard"))
+        else:
+            return "帳號或密碼錯誤"
+    return render_template("admin_login.html")
 
-# 綁定姓名
-@app.route('/bind', methods=['POST'])
-def bind_name():
-    user_id = request.form.get('user_id')
-    name = request.form.get('name')
-    if user_id and name:
-        user_bind[user_id] = name
-    return redirect(url_for('index'))
+# 管理員總覽頁面
+@app.route("/admin")
+def admin_dashboard():
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+    return render_template("admin.html", records=leave_records)
 
-# 送出請假表單
-@app.route('/submit', methods=['POST'])
-def submit():
-    user_id = TEST_LINE_USER
-    name = user_bind.get(user_id, "未綁定")
-    leave_type = request.form.get('leave_type')
-    start_date = request.form.get('start_date')
-    end_date = request.form.get('end_date')
-    reason = request.form.get('reason')
+# 登出
+@app.route("/logout")
+def logout():
+    session.pop("admin_logged_in", None)
+    return redirect(url_for("admin_login"))
 
-    leave_records.append({
-        "user_id": user_id,
-        "name": name,
-        "leave_type": leave_type,
-        "start_date": start_date,
-        "end_date": end_date,
-        "reason": reason
-    })
-    return redirect(url_for('records'))
-
-# 顯示所有請假紀錄（後台）
-@app.route('/records')
-def records():
-    return render_template('records.html', records=leave_records)
+# 你的其他請假表單與使用者頁面路由照原本設定
+# @app.route("/") ...
+# @app.route("/leave_form") ...
+# @app.route("/records") ...
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
+    app.run(host="0.0.0.0", port=5000, debug=True)
