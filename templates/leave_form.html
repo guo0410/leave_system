@@ -2,40 +2,40 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>請假申請</title>
+    <title>請假單</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding:20px; }
-        .container { max-width: 500px; margin: auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-        label { display:block; margin-top:10px; }
-        input, select, textarea { width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc; }
-        button { margin-top:15px; padding:10px 20px; border:none; border-radius:5px; background:#2196F3; color:#fff; cursor:pointer; }
-        button:hover { background:#1976D2; }
-        a { display:block; margin-top:10px; text-decoration:none; color:#555; }
+        body { font-family: Arial, sans-serif; background:#f9f9f9; padding:50px; }
+        form { background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); width:400px; margin:auto; }
+        input, select, textarea { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
+        button { padding:10px 20px; border:none; border-radius:5px; background:#4CAF50; color:white; cursor:pointer; width:100%; }
+        button:hover { background:#45a049; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>請假申請</h2>
-        <form method="POST">
-            <label>開始日期:</label>
-            <input type="date" name="start_date" required>
+    <h2 style="text-align:center;">請假單</h2>
+    <form action="{{ url_for('submit_leave') }}" method="POST">
+        <label>開始日期：</label>
+        <input type="date" name="start_date" required>
 
-            <label>結束日期:</label>
-            <input type="date" name="end_date" required>
+        <label>結束日期：</label>
+        <input type="date" name="end_date" required>
 
-            <label>假別:</label>
-            <select name="leave_type" required>
-                {% for leave in leave_types %}
-                    <option value="{{ leave }}">{{ leave }}</option>
-                {% endfor %}
-            </select>
+        <label>假別：</label>
+        <select name="leave_type" required>
+            {% for type in leave_types %}
+                <option value="{{ type }}">{{ type }}</option>
+            {% endfor %}
+        </select>
 
-            <label>請假原因:</label>
-            <textarea name="reason" rows="4" required></textarea>
+        <label>請假原因：</label>
+        <textarea name="reason" rows="4" required></textarea>
 
-            <button type="submit">送出請假單</button>
-        </form>
-        <a href="{{ url_for('records') }}">查看我的請假紀錄</a>
+        <button type="submit">送出請假單</button>
+    </form>
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{{ url_for('my_records') }}">查看我的請假紀錄</a>
+        <br>
+        <a href="{{ url_for('logout') }}">登出</a>
     </div>
 </body>
 </html>
